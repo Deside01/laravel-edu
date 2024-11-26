@@ -2,9 +2,13 @@
 
 namespace App\Http\Resources;
 
+use App\Models\LunarMission;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @mixin LunarMission
+ */
 class LunarMissionResource extends JsonResource
 {
     /**
@@ -14,6 +18,15 @@ class LunarMissionResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        self::wrap(false);
+        return [
+            'mission' => [
+                'user' => UserResource::make($this->author),
+                'name' => $this->name,
+                'launch_details' => $this->launch_details,
+                'landing_details' => $this->landing_details,
+                'spacecraft' => $this->spacecraft,
+            ]
+        ];
     }
 }
