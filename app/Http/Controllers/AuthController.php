@@ -45,14 +45,12 @@ class AuthController extends Controller
 
             return [
                 'data' => [
-                    'user' => [
                         'id' => $user->id,
                         'name' => $user->full_name,
                         'birth_date' => $user->birth_date,
                         'email' => $user->email,
                     ],
                     'token' => $user->createToken('api')->plainTextToken,
-                ]
             ];
         }
 

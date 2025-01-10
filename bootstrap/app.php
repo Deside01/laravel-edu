@@ -1,8 +1,10 @@
 <?php
 
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -18,7 +20,7 @@ return Application::configure(basePath: dirname(__DIR__))
         //
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        $exceptions->render(function (\Illuminate\Auth\AuthenticationException $e) {
+        $exceptions->render(function (AuthenticationException $e) {
             return response()->json([
                 'code' => 401,
                 'message' => 'Login failed',
@@ -39,7 +41,7 @@ return Application::configure(basePath: dirname(__DIR__))
             ], 403);
         });
 
-        $exceptions->render(function (\Illuminate\Validation\ValidationException $e) {
+        $exceptions->render(function (ValidationException $e) {
 //            dd($e);
             return response()->json([
                 'error' => [
